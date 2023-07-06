@@ -1,6 +1,6 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:val_flutter/agent_detail_page.dart';
 import 'package:val_flutter/api.dart';
 
 class AgentPage extends StatefulWidget {
@@ -41,6 +41,7 @@ class _AgentPageState extends State<AgentPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Agents Valorant'),
+        elevation: 4,
       ),
       body: listAgents.isEmpty
           ? const Center(
@@ -58,31 +59,43 @@ class _AgentPageState extends State<AgentPage> {
               itemBuilder: (context, index) {
                 final agent = listAgents[index];
 
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    gradient: LinearGradient(
-                      colors:
-                          getGradientsColor(agent['backgroundGradientColors']),
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    children: [
-                      Stack(
-                        alignment: Alignment.center,
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => AgentDetailPage(agent: agent),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    elevation: 1,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        gradient: LinearGradient(
+                          colors: getGradientsColor(
+                              agent['backgroundGradientColors']),
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
                         children: [
-                          CachedNetworkImage(
-                            imageUrl: agent['background'],
-                          ),
-                          CachedNetworkImage(
-                            imageUrl: agent['fullPortrait'],
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl: agent['background'],
+                              ),
+                              CachedNetworkImage(
+                                imageUrl: agent['fullPortrait'],
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
                 );
               },
