@@ -41,7 +41,6 @@ class _AgentPageState extends State<AgentPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Agents Valorant'),
-        elevation: 4,
       ),
       body: listAgents.isEmpty
           ? const Center(
